@@ -28,9 +28,12 @@ binominal distributions:
 '''
 
 listToTurnIntoTupleOfPolygons = []
-dictTableFromProbabilityFunction = {}
-for i in range(5, 51):
-    dictTableFromProbabilityFunction[i] = 0
+dictOfDice = {}
+# The for loop below creates a dictionary where the key is the amount
+# of sides it has and the value is a list containing the possible value
+# for each of the faces
+for i in range(4, 51):
+    dictOfDice[i] = list(range(1, i+1))
 
 for i in range(3, 51):
     listToTurnIntoTupleOfPolygons.append(i)
@@ -40,6 +43,6 @@ tupleOfPolygons = tuple(listToTurnIntoTupleOfPolygons)
 dictWithTuplesAsKeys = dict.fromkeys(tupleOfPolygons, None)
 
 
-print(f'\ntable from probability function {dictTableFromProbabilityFunction}\n')
+print(f'\ntable from probability function {dictOfDice}\n')
 print(f'\ndict with tuples {dictWithTuplesAsKeys}\n')
 print(f'\ntuple of polygons {tupleOfPolygons}\n')
