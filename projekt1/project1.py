@@ -26,23 +26,55 @@ binominal distributions:
 
     python specific is "numpy.convolve"
 '''
+import numpy
 
-listToTurnIntoTupleOfPolygons = []
+tupleOfPlatonicSolids = (4, 6, 8, 12, 20)
+dictWithProbabilites = {}
 dictOfDice = {}
+
 # The for loop below creates a dictionary where the key is the amount
-# of sides it has and the value is a list containing the possible value
+# of sides the shape has. The value is a list containing the possible value
 # for each of the faces
-for i in range(4, 51):
+
+for i in tupleOfPlatonicSolids:
     dictOfDice[i] = list(range(1, i+1))
 
-for i in range(3, 51):
-    listToTurnIntoTupleOfPolygons.append(i)
+# This for loop does about the same as the previous one but instead of having
+# the literal value of the face, it shows the probability of a face landing up
 
-tupleOfPolygons = tuple(listToTurnIntoTupleOfPolygons)
+for i in tupleOfPlatonicSolids:
+    tempList = []
+    for j in range(0, i):
+        tempList.append(1)
+        tempList[j] = tempList[j]/i
 
-dictWithTuplesAsKeys = dict.fromkeys(tupleOfPolygons, None)
+    dictWithProbabilites[i] = tempList
 
 
+# For the actual rolling we are supposed to assume all 5 dice are rolled
+# (which is why the lowest score we can get is 5 i.e. all dice face up with 1)
+# and why the highest score is 50 i.e. 20 + 12 + 8 + 6 + 4
+
+
+def task1():
+    return
+
+
+def task2():
+    return
+
+
+def task3():
+    return
+
+
+def task4():
+    return
+
+
+def task5():
+    return
+
+
+print(f'\nprobabilites of each platonic solid: {dictWithProbabilites}\n')
 print(f'\ntable from probability function {dictOfDice}\n')
-print(f'\ndict with tuples {dictWithTuplesAsKeys}\n')
-print(f'\ntuple of polygons {tupleOfPolygons}\n')
