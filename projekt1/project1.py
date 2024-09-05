@@ -31,6 +31,7 @@ import numpy
 tupleOfPlatonicSolids = (4, 6, 8, 12, 20)
 dictWithProbabilites = {}
 dictOfDice = {}
+dictOfDiceWithProbabilities = {}
 
 # The for loop below creates a dictionary where the key is the amount
 # of sides the shape has. The value is a list containing the possible value
@@ -51,6 +52,41 @@ for i in tupleOfPlatonicSolids:
     dictWithProbabilites[i] = tempList
 
 
+simpleDie = []
+simpleDieTwo = []
+for i in range(1, 7):
+    simpleDie.append(1/6)
+    simpleDieTwo.append(1/6)
+
+print(simpleDie)
+print(simpleDieTwo)
+print("\n")
+
+#res = numpy.convolve(simpleDie, simpleDieTwo)
+# res is an array of probabilites that a specific value of the dice are shown
+# when rolled
+#for i in res:
+ #   print(len(res))
+  #  print(i)
+
+
+listOfDiscreteProbs = []
+for i in range(1, len(tupleOfPlatonicSolids)):
+    print("List of probabilities as it is iterated over")
+    tempArray = numpy.convolve(dictWithProbabilites[tupleOfPlatonicSolids[i-1]], dictWithProbabilites[tupleOfPlatonicSolids[i]])
+    for j in range(0, len(listOfDiscreteProbs)):
+        listOfDiscreteProbs[j] = listOfDiscreteProbs[j] + tempArray[j]
+
+    for j in range(len(listOfDiscreteProbs), len(tempArray)):
+        listOfDiscreteProbs.append(tempArray[j])
+    print(listOfDiscreteProbs)
+    print(len(listOfDiscreteProbs))
+    print("\n")
+
+print("HELLOOOOOO???")
+print(len(listOfDiscreteProbs))
+#arr = numpy.convolve(dictWithProbabilites[0], dictOfDiceWithProbabilities[2])
+#print(arr)
 # For the actual rolling we are supposed to assume all 5 dice are rolled
 # (which is why the lowest score we can get is 5 i.e. all dice face up with 1)
 # and why the highest score is 50 i.e. 20 + 12 + 8 + 6 + 4
@@ -76,5 +112,5 @@ def task5():
     return
 
 
-print(f'\nprobabilites of each platonic solid: {dictWithProbabilites}\n')
-print(f'\ntable from probability function {dictOfDice}\n')
+#print(f'\nprobabilites of each platonic solid: {dictWithProbabilites}\n')
+#print(f'\ntable from probability function {dictOfDice}\n')
