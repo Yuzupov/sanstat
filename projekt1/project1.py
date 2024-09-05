@@ -71,7 +71,7 @@ print("\n")
 
 listOfDiscreteProbs = dictWithProbabilites[tupleOfPlatonicSolids[0]]
 
-for i in range(0, len(tupleOfPlatonicSolids)):
+for i in range(1, len(tupleOfPlatonicSolids)):
     print("List of probabilities as it is iterated over")
     tempArray = numpy.convolve(listOfDiscreteProbs, dictWithProbabilites[tupleOfPlatonicSolids[i]])
     for j in range(0, len(listOfDiscreteProbs)):
@@ -84,6 +84,7 @@ for i in range(0, len(tupleOfPlatonicSolids)):
     print("\n")
 
 print("HELLOOOOOO???")
+print(len(listOfDiscreteProbs))
 for i in range(0, len(listOfDiscreteProbs)):
     print(i+5)
     print(listOfDiscreteProbs[i])
