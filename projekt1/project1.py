@@ -69,11 +69,11 @@ print("\n")
  #   print(len(res))
   #  print(i)
 
+listOfDiscreteProbs = dictWithProbabilites[tupleOfPlatonicSolids[0]]
 
-listOfDiscreteProbs = []
-for i in range(1, len(tupleOfPlatonicSolids)):
+for i in range(0, len(tupleOfPlatonicSolids)):
     print("List of probabilities as it is iterated over")
-    tempArray = numpy.convolve(dictWithProbabilites[tupleOfPlatonicSolids[i-1]], dictWithProbabilites[tupleOfPlatonicSolids[i]])
+    tempArray = numpy.convolve(listOfDiscreteProbs, dictWithProbabilites[tupleOfPlatonicSolids[i]])
     for j in range(0, len(listOfDiscreteProbs)):
         listOfDiscreteProbs[j] = listOfDiscreteProbs[j] + tempArray[j]
 
@@ -84,7 +84,9 @@ for i in range(1, len(tupleOfPlatonicSolids)):
     print("\n")
 
 print("HELLOOOOOO???")
-print(len(listOfDiscreteProbs))
+for i in range(0, len(listOfDiscreteProbs)):
+    print(i+5)
+    print(listOfDiscreteProbs[i])
 #arr = numpy.convolve(dictWithProbabilites[0], dictOfDiceWithProbabilities[2])
 #print(arr)
 # For the actual rolling we are supposed to assume all 5 dice are rolled
