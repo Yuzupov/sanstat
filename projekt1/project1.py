@@ -46,6 +46,15 @@ listOfDiscreteProbs = dictWithProbabilites[listOfPlatonicSolids[0]]
 for i in listOfPlatonicSolids[1:]:
     listOfDiscreteProbs = numpy.convolve(listOfDiscreteProbs, dictWithProbabilites[i])
 
+for item in listOfDiscreteProbs:
+    print(item)
+
+total_probability = sum(listOfDiscreteProbs)
+print("Total Probability:", total_probability)
+
+# Probability of winning
+win = sum(listOfDiscreteProbs[:6]) + sum(listOfDiscreteProbs[-6:])
+print(f"Probability of winning the game: {win:.5f}")
 
 def task1():
     return
