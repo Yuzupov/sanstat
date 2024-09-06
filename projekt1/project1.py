@@ -27,9 +27,13 @@ binominal distributions:
     python specific is "numpy.convolve"
 '''
 import numpy
+import random
+import matplotlib.pyplot as plt
 
 listOfPlatonicSolids = [4, 6, 8, 12, 20]
 dictWithProbabilites = {}
+numOfTrials = 100000
+dictOfDice = {}
 
 # This for loop does about the same as the previous one but instead of having
 # the literal value of the face, it shows the probability of a face landing up
@@ -46,15 +50,65 @@ listOfDiscreteProbs = dictWithProbabilites[listOfPlatonicSolids[0]]
 for i in listOfPlatonicSolids[1:]:
     listOfDiscreteProbs = numpy.convolve(listOfDiscreteProbs, dictWithProbabilites[i])
 
+
+for i in listOfPlatonicSolids:
+    dictOfDice[i] = list(range(1, i+1))
+
 for item in listOfDiscreteProbs:
     print(item)
+
+
 
 total_probability = sum(listOfDiscreteProbs)
 print("Total Probability:", total_probability)
 
+
+
 # Probability of winning
 win = sum(listOfDiscreteProbs[:6]) + sum(listOfDiscreteProbs[-6:])
 print(f"Probability of winning the game: {win:.5f}")
+
+
+#Task 3
+counter = 0
+for i in range(numOfTrials):
+    res = 0
+    res += random.randint(1, len(dictOfDice[4]))
+    res += random.randint(1, len(dictOfDice[6]))
+    res += random.randint(1, len(dictOfDice[8]))
+    res += random.randint(1, len(dictOfDice[12]))
+    res += random.randint(1, len(dictOfDice[20]))
+    if res <= 10 or res >= 45:
+        counter += 1
+
+print(f"Probability of winning the game with 1000 trials: {counter/numOfTrials:.5f}")
+
+differentTrials = [10, 100, 1000, 10000, 100000, 1000000]
+resultList = []
+
+for i in differentTrials:
+    counter = 0
+    for j in range(i):
+        res = 0
+        res += random.randint(1, len(dictOfDice[4]))
+        res += random.randint(1, len(dictOfDice[6]))
+        res += random.randint(1, len(dictOfDice[8]))
+        res += random.randint(1, len(dictOfDice[12]))
+        res += random.randint(1, len(dictOfDice[20]))
+        if res <= 10 or res >= 45:
+            counter += 1
+    resultList.append(counter/i)
+    #print(f"Probability of winning the game with {i} trials: {counter/i:.5f}")
+
+plt.plot(differentTrials, resultList, marker='o')
+plt.xscale('log')
+plt.xlabel('Number of Trials')
+plt.ylabel('Probability of winning')
+plt.axhline(y=win, color='r', linestyle='-')
+plt.axhline(y=win*0.90, color='g', linestyle='-')
+plt.axhline(y=win*1.10, color='g', linestyle='-')
+plt.title('Probability of winning the game')
+plt.show()
 
 def task1():
     return
