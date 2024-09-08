@@ -1,94 +1,77 @@
-'''
-Notes from background knowledge part of the assignment for easier referencing
-
-distribution of a sum of two independent discrete random variables S = X + Y
-can be determined through:
-    if S = s and X 0 i, then Y = s - i, since X and Y are independent
-    the probability is a long fucking expression
-
-By adding up all the possible values for i, we obtain the probability of
-S = s as follows:
-    P(S = s) = pfS(s) = SIGMApfX(s-i)pfY(i)
-
-The above sum is called a convoloution sum. The operation of convolution is
-usually denoted by an asterisk such that
-pfS(s) = (pfX * pfX)(s)
-convolution of two independent random variables X and Y following
-binominal distributions:
-
-    X e Bin(5, 0.3)
-    Y e Bin(8, 0.6)
-    S = X + Y
-
-    if we have more than two random variables we obtain the probability of
-    the third by taking the convolution sum of the first two, and use that
-    as a parameter for the second convolution sum
-
-    python specific is "numpy.convolve"
-'''
 import numpy
 import random
+from tabulate import tabulate
 import matplotlib.pyplot as plt
 
 listOfPlatonicSolids = [4, 6, 8, 12, 20]
+listOfDiscreteProbs = []
+resultList = []
+differentTrials = [10, 100, 1000, 10000, 100000, 1000000]
 dictWithProbabilites = {}
-numOfTrials = 100000
 dictOfDice = {}
+win = 0
+numOfTrials = 100000
 
-# This for loop does about the same as the previous one but instead of having
-# the literal value of the face, it shows the probability of a face landing up
-
+# Below for loop populates a dictionary with probabilites. The key of the dict
+# corresponds to the size of the die and the value at the key is a list
+# with probability of a specific side facing up
 for i in listOfPlatonicSolids:
     tempList = []
     for j in range(0, i):
         tempList.append(1)
         tempList[j] = tempList[j]/i
-
     dictWithProbabilites[i] = tempList
 
-listOfDiscreteProbs = dictWithProbabilites[listOfPlatonicSolids[0]]
-for i in listOfPlatonicSolids[1:]:
-    listOfDiscreteProbs = numpy.convolve(listOfDiscreteProbs, dictWithProbabilites[i])
-
-
+# below loop populates a dictionary with the value of each face.
+# unlike the above function it has a list with the value of each face
+# as opposed to the probability
 for i in listOfPlatonicSolids:
     dictOfDice[i] = list(range(1, i+1))
 
-for item in listOfDiscreteProbs:
-    print(item)
+
+def main():
+    # main loop, allows for user input
+    while True:
+        print("Pick which task you want to run the code for:")
+        pickTask = int(input())
+        if pickTask >= 1 or pickTask <= 5:
+            match pickTask:
+                case 1:
+                    task1()
+                case 2:
+                    task2()
+                case 3:
+                    task3()
+                case 4:
+                    task4()
+                case 5:
+                    task5()
 
 
+def task1():
+    global listOfDiscreteProbs, dictWithProbabilites, listOfPlatonicSolids
+    listOfDiscreteProbs = dictWithProbabilites[listOfPlatonicSolids[0]]
+    for i in listOfPlatonicSolids[1:]:
+        listOfDiscreteProbs = numpy.convolve(listOfDiscreteProbs, dictWithProbabilites[i])
+    print("s", "P(S=s)")
+    for i in range(46):
+        print(str(i+5), listOfDiscreteProbs[i])
+    total_probability = sum(listOfDiscreteProbs)
+    print("Total Probability:", total_probability)
+    return
 
-total_probability = sum(listOfDiscreteProbs)
-print("Total Probability:", total_probability)
+
+def task2():
+    global win, listOfDiscreteProbs
+    # Probability of winning one game
+    win = sum(listOfDiscreteProbs[:6]) + sum(listOfDiscreteProbs[-6:])
+    print(f"Probability of winning the game: {win:.5f}")
+    return
 
 
-
-# Probability of winning
-win = sum(listOfDiscreteProbs[:6]) + sum(listOfDiscreteProbs[-6:])
-print(f"Probability of winning the game: {win:.5f}")
-
-
-#Task 3
-counter = 0
-for i in range(numOfTrials):
-    res = 0
-    res += random.randint(1, len(dictOfDice[4]))
-    res += random.randint(1, len(dictOfDice[6]))
-    res += random.randint(1, len(dictOfDice[8]))
-    res += random.randint(1, len(dictOfDice[12]))
-    res += random.randint(1, len(dictOfDice[20]))
-    if res <= 10 or res >= 45:
-        counter += 1
-
-print(f"Probability of winning the game with 1000 trials: {counter/numOfTrials:.5f}")
-
-differentTrials = [10, 100, 1000, 10000, 100000, 1000000]
-resultList = []
-
-for i in differentTrials:
+def task3():
     counter = 0
-    for j in range(i):
+    for _ in range(numOfTrials):
         res = 0
         res += random.randint(1, len(dictOfDice[4]))
         res += random.randint(1, len(dictOfDice[6]))
@@ -97,34 +80,42 @@ for i in differentTrials:
         res += random.randint(1, len(dictOfDice[20]))
         if res <= 10 or res >= 45:
             counter += 1
-    resultList.append(counter/i)
-    #print(f"Probability of winning the game with {i} trials: {counter/i:.5f}")
-
-plt.plot(differentTrials, resultList, marker='o')
-plt.xscale('log')
-plt.xlabel('Number of Trials')
-plt.ylabel('Probability of winning')
-plt.axhline(y=win, color='r', linestyle='-')
-plt.axhline(y=win*0.90, color='g', linestyle='-')
-plt.axhline(y=win*1.10, color='g', linestyle='-')
-plt.title('Probability of winning the game')
-plt.show()
-
-def task1():
-    return
-
-
-def task2():
-    return
-
-
-def task3():
+    print(f"Probability of winning the game with 1000 trials: {counter/numOfTrials:.5f}")
     return
 
 
 def task4():
+    counter = 0
+    k = 0
+    for i in differentTrials:
+        k = i
+        counter = 0
+        for _ in range(i):
+            res = 0
+            res += random.randint(1, len(dictOfDice[4]))
+            res += random.randint(1, len(dictOfDice[6]))
+            res += random.randint(1, len(dictOfDice[8]))
+            res += random.randint(1, len(dictOfDice[12]))
+            res += random.randint(1, len(dictOfDice[20]))
+            if res <= 10 or res >= 45:
+                counter += 1
+        resultList.append(counter/i)
+    print(resultList)
+    print(f"Probability of winning the game with {k} trials: {counter/k:.5f}")
     return
 
 
 def task5():
+    plt.plot(differentTrials, resultList, marker='o')
+    plt.xscale('log')
+    plt.xlabel('Number of Trials')
+    plt.ylabel('Probability of winning')
+    plt.axhline(y=win, color='r', linestyle='-')
+    plt.axhline(y=win*0.90, color='g', linestyle='-')
+    plt.axhline(y=win*1.10, color='g', linestyle='-')
+    plt.title('Probability of winning the game')
+    plt.show()
     return
+
+
+main()
