@@ -34,17 +34,16 @@ def main():
         print("Pick which task you want to run the code for:")
         pickTask = int(input())
         if pickTask >= 1 or pickTask <= 5:
-            match pickTask:
-                case 1:
-                    task1()
-                case 2:
-                    task2()
-                case 3:
-                    task3()
-                case 4:
-                    task4()
-                case 5:
-                    task5()
+            if pickTask == 1:
+                task1()
+            elif pickTask == 2:
+                task2()
+            elif pickTask == 3:
+                task3()
+            elif pickTask == 4:
+                task4()
+            elif pickTask == 5:
+                task5()
 
 
 def task1():
