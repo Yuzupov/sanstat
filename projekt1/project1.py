@@ -1,6 +1,5 @@
 import numpy
 import random
-from tabulate import tabulate
 import matplotlib.pyplot as plt
 
 listOfPlatonicSolids = [4, 6, 8, 12, 20]
