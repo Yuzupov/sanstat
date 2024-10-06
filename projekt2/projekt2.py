@@ -42,30 +42,83 @@ for _ in amountOfResamples
 # Task 2: estimate p with bootstrapping
 #
 
-# convert into a numpy array for redundancy
-originalObservations = numpy.array(originalObservations)
-# calculate the arithmetic mean of the array
-sampleMean = numpy.mean(originalObservations)
 
-for _ in range(BOOTSTRAPS):
-    bootstrappedObservation = []
-# method for resampling
-# use random.choice() of the original sample to generate bootstrapped samples
-# calculate the arithmetic mean of the bootstrapped sample and add to a list
-    for _ in originalObservations:
-        bootstrappedObservation.append(random.choice(originalObservations))
-    bootstrappedObservationMean = numpy.mean(
-        numpy.array(bootstrappedObservation)
-    )
-    bootstrappedObservations.append(bootstrappedObservationMean)
-bootstrappedObservations = numpy.sort(bootstrappedObservations)
+def task2Preset():
+    global bootstrappedObservations, originalObservations
+    # list of probabilities as bootstrap amount increases
+    listOfProbabilities = []
+    # convert into a numpy array for redundancy
+    originalObservations = numpy.array(originalObservations)
+    # calculate the arithmetic mean of the array
+    sampleMean = numpy.mean(originalObservations)
+    BOOTSTRAPSLIST = [10, 100, 1000, 10000, 100000, 1000000]
+    for bootstraps in BOOTSTRAPSLIST:
+        bootstrappedObservations = []
+        for _ in range(bootstraps):
+            bootstrappedObservation = []
+        # method for resampling
+        # use random.choice() of the original sample to generate bootstrapped samples
+        # calculate the arithmetic mean of the bootstrapped sample and add to a list
+            for _ in originalObservations:
+                bootstrappedObservation.append(random.choice(originalObservations))
+            bootstrappedObservationMean = numpy.mean(
+                numpy.array(bootstrappedObservation)
+            )
+            bootstrappedObservations.append(bootstrappedObservationMean)
+        bootstrappedObservations = numpy.sort(bootstrappedObservations)
 
-withinIntervalCounter = 0
-for mean in bootstrappedObservations:
-    if (A < (mean - sampleMean) < B):
-        withinIntervalCounter += 1
+        withinIntervalCounter = 0
+        for mean in bootstrappedObservations:
+            if (A < (mean - sampleMean) < B):
+                withinIntervalCounter += 1
+        # print the result
+        proportionOfSuccess = withinIntervalCounter/bootstraps
+        listOfProbabilities.append(proportionOfSuccess)
+    print(f"mean of original sample: {sampleMean}")
+    print(f"p values for increasing amount of bootstraps {listOfProbabilities}")
 
-# print the result
-print(sampleMean)
-proportionOfSuccess = withinIntervalCounter/BOOTSTRAPS
-print(proportionOfSuccess)
+
+def task2(input):
+    global bootstrappedObservations, originalObservations
+    bootstrappedObservations = []
+    BOOTSTRAPS = input
+    # convert into a numpy array for redundancy
+    originalObservations = numpy.array(originalObservations)
+    # calculate the arithmetic mean of the array
+    sampleMean = numpy.mean(originalObservations)
+
+    for _ in range(BOOTSTRAPS):
+        bootstrappedObservation = []
+    # method for resampling
+    # use random.choice() of the original sample to generate bootstrapped samples
+    # calculate the arithmetic mean of the bootstrapped sample and add to a list
+        for _ in originalObservations:
+            bootstrappedObservation.append(random.choice(originalObservations))
+        bootstrappedObservationMean = numpy.mean(
+            numpy.array(bootstrappedObservation)
+        )
+        bootstrappedObservations.append(bootstrappedObservationMean)
+    bootstrappedObservations = numpy.sort(bootstrappedObservations)
+
+    withinIntervalCounter = 0
+    for mean in bootstrappedObservations:
+        if (A < (mean - sampleMean) < B):
+            withinIntervalCounter += 1
+
+    # print the result
+    print(f"mean of original sample: {sampleMean}")
+    proportionOfSuccess = withinIntervalCounter/BOOTSTRAPS
+    print(f"probability of success {proportionOfSuccess}")
+
+
+def main():
+    while True:
+        userChoice = input("Do you want to use preset bootstrap amounts? y/n ")
+        if userChoice == "y":
+            task2Preset()
+        else:
+            bootstraps = int(input("Enter amount of bootstraps: "))
+            task2(bootstraps)
+
+
+main()
