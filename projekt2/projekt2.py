@@ -74,8 +74,9 @@ def task2Preset():
         # print the result
         proportionOfSuccess = withinIntervalCounter/bootstraps
         listOfProbabilities.append(proportionOfSuccess)
+    printPrettyDict = dict(zip(BOOTSTRAPSLIST, listOfProbabilities))
     print(f"mean of original sample: {sampleMean}")
-    print(f"p values for increasing amount of bootstraps {listOfProbabilities}")
+    print(f"p values for increasing amount of bootstraps {printPrettyDict}")
 
 
 def task2(input):
@@ -108,7 +109,8 @@ def task2(input):
     # print the result
     print(f"mean of original sample: {sampleMean}")
     proportionOfSuccess = withinIntervalCounter/BOOTSTRAPS
-    print(f"probability of success {proportionOfSuccess}")
+    printPrettyDict = {BOOTSTRAPS: proportionOfSuccess}
+    print(f"probability of success {printPrettyDict}")
 
 
 def main():
