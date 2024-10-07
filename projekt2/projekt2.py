@@ -1,6 +1,7 @@
 import numpy
 import random
 
+# sanstat assignment in python
 # amount of bootstraps
 BOOTSTRAPS = 1000
 
@@ -29,14 +30,14 @@ Bootstrapping can be used to make multiple samples from one original sample.
 Through random selection of the first sample, new samples are created
 and can be used to approximate the distribution of the sample mean.
 
-sampleMean = mean(originalSample)
+1sampleMean = mean(originalSample)
 
 for _ in amountOfResamples
     bootstrappedSample = resample(originalSample)
     bootstrappedMean = mean(bootstrappedSample)
-    adjustedMean = bootstrappedMean - sampleMean
-    if a < adjustedMean < b
+    if a < bootstrappedMean - sampleMean < b
         success += 1
+probabilityForP = success/amountOfResamples
 '''
 
 # Task 2: estimate p with bootstrapping
